@@ -1,0 +1,6 @@
+1. Buka directory seng mok garap 
+2. klik kanan - git bash here
+3. ketik git pull origin master
+4. Ngodinggg
+5. lek wes bar ngoding ketik, git commit -m " (iki ditulis ae opo sg bar mok edit) "
+6. git push origin master
