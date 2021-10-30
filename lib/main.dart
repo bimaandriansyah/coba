@@ -1,4 +1,4 @@
-import 'package:coba/screens/home_screen.dart';
+import 'package:coba/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.orange,
       ),
-      home: const SplashScreen(),
+      home: const LoginScreen(),
     );
   }
 }
