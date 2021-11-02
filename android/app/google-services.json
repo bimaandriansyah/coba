@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "853092217146",
+    "project_id": "coba-13509",
+    "storage_bucket": "coba-13509.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853092217146:android:7a96885370523b2c936003",
+        "android_client_info": {
+          "package_name": "com.example.coba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "853092217146-lalc7o3c68ni0v59804sm9t9p7hkg7ff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.coba",
+            "certificate_hash": "7c498740b8f1d4c1e4236d26f7250d1181d6bf1e"
+          }
+        },
+        {
+          "client_id": "853092217146-c1uve33aq5d32rq6o0enb670bvmva3dq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQx9l3ksEIZixqK7A1LGNcxQNZxt__dGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "853092217146-c1uve33aq5d32rq6o0enb670bvmva3dq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

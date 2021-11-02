@@ -1,21 +1,37 @@
-import 'package:coba/screens/splash_screen.dart';
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
-void main() => runApp(const MyApp());
+import 'package:coba/screens/details_room.dart';
+import 'package:coba/screens/home_screen.dart';
+import 'package:coba/screens/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.grey.shade400,
+        statusBarIconBrightness: Brightness.light));
     return MaterialApp(
-      title: 'Selamat Datang di Hotel Purbaya',
-      debugShowCheckedModeBanner: false,
+      title: 'mPurbaya',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: const SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      home: const RoomDetailsPage(),
     );
   }
 }

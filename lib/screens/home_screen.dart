@@ -1,4 +1,9 @@
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+
+import 'package:coba/constant/color_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -21,13 +26,29 @@ class _MainPageState extends State<MainPage> {
             currentIndex = newValue;
           });
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag), label: "Reservation"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Profile"),
+        items: [
+          _bottomIcon("assets/home-fill.svg", "assets/home.svg"),
+          _bottomIcon("assets/shop-bag-fill.svg", "assets/shop-bag.svg"),
+          _bottomIcon("assets/profile.svg", "assets/profile.svg"),
         ],
       ),
     );
   }
+}
+
+_bottomIcon(String activeIcon, String icon) {
+  return BottomNavigationBarItem(
+      activeIcon: Container(
+        height: 20,
+        child: SvgPicture.asset(
+          activeIcon,
+        ),
+      ),
+      icon: Container(
+        height: 20,
+        child: SvgPicture.asset(
+          icon,
+        ),
+      ),
+      label: "");
 }
