@@ -2,7 +2,7 @@
 
 import 'dart:ui';
 
-import 'package:coba/screens/home_screen.dart';
+import 'package:coba/screens/navigator.dart';
 import 'package:coba/screens/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -293,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Berhasil"),
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const MainPage())),
+                    MaterialPageRoute(builder: (context) => MainPage())),
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);

@@ -1,6 +1,6 @@
 // ignore_for_file: unused_field, unused_local_variable, prefer_const_constructors
 
-import 'package:coba/screens/home_screen.dart';
+import 'package:coba/screens/navigator.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coba/model/user_model.dart';
