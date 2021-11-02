@@ -1,11 +1,12 @@
 import 'dart:ui';
 
 import 'package:coba/screens/details_room.dart';
-import 'package:coba/screens/home_screen.dart';
+import 'package:coba/screens/navigator.dart';
 import 'package:coba/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,13 +26,13 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.grey.shade400,
         statusBarIconBrightness: Brightness.light));
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'mPurbaya',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
       debugShowCheckedModeBanner: false,
-      home: const RoomDetailsPage(),
+      home: MainPage(),
     );
   }
 }
