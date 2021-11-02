@@ -4,11 +4,10 @@ import 'package:coba/constant/color_constant.dart';
 import 'package:coba/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 
 class RoomDetailsPage extends StatelessWidget {
-  RoomDetailsPage({Key? key}) : super(key: key);
+  const RoomDetailsPage({Key? key}) : super(key: key);
   static const String path = "lib/screens/details_room.dart";
   final String image = "assets/hotel/room2.jpg";
 
@@ -29,10 +28,7 @@ class RoomDetailsPage extends StatelessWidget {
                 onTap: () {
                   Get.back();
                 },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                ),
+                child: Icon(Icons.arrow_back),
               ),
             ),
             body: Stack(
@@ -281,64 +277,11 @@ class RoomDetailsPage extends StatelessWidget {
                     left: 20,
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.bottomSheet(
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                                    child: Container(
-                                      color: Colors.grey.shade300,
-                                      width: 30,
-                                      height: 5,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: checkInField,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: checkInField,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "SELANJUTNYA",
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        primary: Colors.orange,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 13),
-                                        textStyle: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)),
-                                  )
-                                ],
-                              ),
-                            ),
-                            elevation: 20.0,
-                            enableDrag: true,
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(30.0),
-                            )));
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Column();
+                            });
                       },
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -354,24 +297,4 @@ class RoomDetailsPage extends StatelessWidget {
               ],
             )));
   }
-
-  final checkInField = TextFormField(
-    autofocus: false,
-    keyboardType: TextInputType.emailAddress,
-    validator: (value) {
-      if (value!.isEmpty) {
-        return ("Email tidak boleh kosong ! ");
-      }
-      return null;
-    },
-    textInputAction: TextInputAction.next,
-    decoration: InputDecoration(
-      suffix: const Icon(Feather.database),
-      contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-      hintText: "Check In",
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-    ),
-  );
 }
