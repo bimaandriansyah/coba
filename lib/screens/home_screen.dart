@@ -1,16 +1,38 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:coba/screens/details_room.dart';
+import 'package:coba/constant/color_constant.dart';
+import 'package:coba/controller/firebase_controller.dart';
+import 'package:coba/screens/details_room_a.dart';
+import 'package:coba/screens/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final List<String> imgList = [
-  'assets/room2.jpg',
-  'assets/room2.jpg',
-  'assets/room2.jpg',
-  'assets/room2.jpg',
+  'assets/purbaya1.png',
+  'assets/purbaya2.jpg',
+  'assets/purbaya3.jpg',
+];
+
+final List kamar = [
+  {"tipe": "Tipe A", "harga": "350.000", "foto": "assets/room1.png"},
+  {"tipe": "Tipe B", "harga": "220.000", "foto": "assets/room2.png"}
+];
+
+final List type = ["Type A", "Type B"];
+final List harga = ["350.000", "225.000"];
+final List fotoRoom = ["assets/room1.jpg", "assets/room2.jpg"];
+
+final List namaTelaga = ["Telaga Sarangan", "Telaga Wahyu", "Bukit Mongkrang"];
+
+final List<String> wisata = [
+  'assets/telaga.jpg',
+  'assets/telaga2.jpg',
+  'assets/bukit.jpg',
 ];
 
 final List<Widget> imageSliders = imgList
@@ -28,8 +50,7 @@ int currentCarousel = 0;
 final CarouselController carouselController = CarouselController();
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
-
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -38,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
@@ -48,6 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _header() {
+    
+    final FirebaseController firebaseC = Get.find();
+    final User? user = firebaseC.auth.currentUser;
+    final String? username = user!.displayName;
+    final String? photoUrl = user.photoURL;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
       child: Row(
@@ -59,22 +86,23 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text("Selamat Datang",
                   style: GoogleFonts.poppins(
-                      fontSize: 14, fontWeight: FontWeight.w400)),
-              Text("Vindy Bagus Prasetyo",
+                      fontSize: 16, fontWeight: FontWeight.w700)),
+              Text(username.toString(),
                   style: GoogleFonts.poppins(
                       color: Colors.orange,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700)),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400)),
             ],
           ),
           Spacer(),
-          CircleAvatar(
-            backgroundColor: Colors.orange,
-            radius: 25,
-            child: Text("P",
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                )),
+          GestureDetector(
+            onTap: () {
+              firebaseC.logout();
+            },
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(photoUrl.toString()),
+              radius: 25,
+            ),
           )
         ],
       ),
@@ -158,24 +186,25 @@ class _HomeScreenState extends State<HomeScreen> {
               style: GoogleFonts.poppins(
                   fontSize: 18, fontWeight: FontWeight.w600)),
         ),
-        Container(
-            height: Get.height * 0.2,
-            child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: imgList.length,
-                itemBuilder: (context, index) {
-                  return typeRoomCard(imgList, index);
-                })),
+        SizedBox(
+          height: Get.height * 0.2,
+          child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: kamar.length,
+              itemBuilder: (context, index) {
+                return typeRoomCard(type, harga, fotoRoom, index);
+              }),
+        ),
       ],
     );
   }
 
-  Widget typeRoomCard(List product, index) {
+  Widget typeRoomCard(List type, List harga, List fotoRoom, index) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => RoomDetailsPage());
+        Get.to(() => RoomDetailsPageA(), arguments: index);
         // print("dadada");
       },
       child: ClipRRect(
@@ -194,10 +223,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Container(
+                    child: SizedBox(
                       width: Get.width * 0.45,
                       child: Image.asset(
-                        product[index].toString(),
+                        fotoRoom[index].toString(),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -209,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Tipe A",
+                        type[index],
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -218,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         children: [
                           Text(
-                            "IDR 350.000 ",
+                            "IDR " + harga[index],
                             style: GoogleFonts.poppins(
                                 fontSize: 10, color: Colors.orange),
                           ),
@@ -256,21 +285,21 @@ class _HomeScreenState extends State<HomeScreen> {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: Container(
-              height: Get.width * 0.45,
+              height: Get.width * 0.35,
               child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: imgList.length,
+                  itemCount: wisata.length,
                   itemBuilder: (context, index) {
-                    return _listWisata(imgList, index);
+                    return _listWisata(wisata, namaTelaga, index);
                   })),
         ),
       ],
     );
   }
 
-  Widget _listWisata(List product, index) {
+  Widget _listWisata(List product, List nama, index) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: Card(
@@ -288,8 +317,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Container(
-                    width: Get.width * 0.35,
+                  child: SizedBox(
+                    width: Get.width * 0.30,
                     height: 20,
                     child: Image.asset(
                       product[index].toString(),
@@ -301,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 5, top: 5),
                 child: Text(
-                  "Telaga Sarangan",
+                  nama[index],
                   style: GoogleFonts.poppins(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

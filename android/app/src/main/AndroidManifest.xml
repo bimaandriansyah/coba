@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.coba">
    <application
-        android:label="coba"
-        android:icon="@mipmap/ic_launcher">
+       android:icon="@mipmap/ic_launcher"
+       android:label="mPurbaya">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

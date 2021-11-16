@@ -128,7 +128,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.vpn_key),
+        prefixIcon: const Icon(Icons.lock),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Password",
         border: OutlineInputBorder(
@@ -200,7 +200,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.only(top: 80),
+              padding: EdgeInsets.only(top: 40),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -208,7 +208,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 80),
+                      padding: const EdgeInsets.only(bottom: 50),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -315,8 +315,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (_formKey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore()})
-          .catchError((e) {
+          .then((value) {
+        postDetailsToFirestore();
+      }).catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
     }
@@ -328,12 +329,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     User? user = _auth.currentUser;
 
     UserModel userModel = UserModel();
-
-    userModel.email = user!.email!;
+    userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.nama = namaLengkapController.text;
-    userModel.noHP = noHPController.text as int;
-    userModel.password = passwordController.text;
+    userModel.noHP = noHPController.text;
 
     await firebaseFirestore
         .collection("users")
@@ -341,7 +340,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Akun berhasil dibuat !");
 
-    Navigator.pushAndRemoveUntil((context),
-        MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+        (route) => false);
   }
 }

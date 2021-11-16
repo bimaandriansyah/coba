@@ -1,7 +1,7 @@
 class UserModel {
   String? uid;
   String? nama;
-  int? noHP;
+  String? noHP;
   String? email;
   String? password;
 
