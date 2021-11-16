@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:coba/constant/color_constant.dart';
+import 'package:coba/controller/booking_controller.dart';
 import 'package:coba/controller/firebase_controller.dart';
-import 'package:coba/controller/navigator_controller.dart';
+import 'package:intl/intl.dart';
 import 'package:coba/screens/transfer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BookingPage extends StatelessWidget {
-  const BookingPage({Key? key}) : super(key: key);
+  final BookingController bookingController = Get.find();
+  NumberFormat output =
+      NumberFormat.currency(locale: "in", symbol: "", decimalDigits: 0);
+
+  var data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +129,7 @@ class BookingPage extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          "2 Malam",
+                          "${data[0]} Malam",
                           style: GoogleFonts.poppins(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
@@ -139,7 +144,7 @@ class BookingPage extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          "300.000",
+                          "${output.format(int.parse(data[1]))}",
                           style: GoogleFonts.poppins(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
@@ -159,7 +164,7 @@ class BookingPage extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          "IDR. 600.000",
+                          "IDR ${output.format(data[0] * int.parse(data[1]))}",
                           style: GoogleFonts.poppins(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
@@ -226,6 +231,7 @@ class BookingPage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Column(
             children: [
@@ -237,7 +243,7 @@ class BookingPage extends StatelessWidget {
                     fontWeight: FontWeight.w700),
               ),
               Text(
-                "IDR 600.000",
+                "IDR ${output.format(data[0] * int.parse(data[1]))}",
                 style: GoogleFonts.poppins(
                     color: AppColors.primaryColor,
                     fontSize: 16,

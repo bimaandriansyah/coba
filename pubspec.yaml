@@ -47,6 +47,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.6295
   provider: ^5.0.0
   rounded_expansion_tile: ^0.0.13
+  uuid: ^3.0.5
   splashscreen: ^1.2.0
   syncfusion_flutter_datepicker: ^19.3.48
 dev_dependencies:

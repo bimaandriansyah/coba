@@ -16,7 +16,7 @@ class RoomDetailsPageA extends StatelessWidget {
   final String image = "assets/hotel/room2.jpg";
 
   final List type = ["Type A", "Type B"];
-  final List harga = ["350.000", "225.000"];
+  final List harga = ["350000", "225000"];
   final List fotoRoom = ["assets/room1.jpg", "assets/room2.jpg"];
   final List bed = ["1 Bed", "2 Bed"];
 
@@ -26,6 +26,8 @@ class RoomDetailsPageA extends StatelessWidget {
   ];
 
   int nomor = Get.arguments;
+
+  final bookingController = Get.put(BookingController());
 
   @override
   Widget build(BuildContext context) {
@@ -291,34 +293,39 @@ class RoomDetailsPageA extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                                 child: Container(
-                                  color: Colors.grey.shade700,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade400,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                   width: 30,
                                   height: 5,
                                 ),
                               ),
                               Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: GestureDetector(
-                                        onTap: () {}, child: _checkIn(context)),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: GestureDetector(
-                                        onTap: () {},
-                                        child: _checkOut(context)),
-                                  ),
+                                  GestureDetector(
+                                      onTap: () {}, child: _checkIn(context)),
+                                  GestureDetector(
+                                      onTap: () {}, child: _checkOut(context)),
                                 ],
                               ),
+                              SizedBox(
+                                height: 20,
+                              ),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.back();
+                                  bookingController.addbooking(
+                                      type[nomor], "belum bayar", harga[nomor]);
+                                  Get.off(() => BookingPage(), arguments: [
+                                    bookingController.jumlah,
+                                    harga[nomor]
+                                  ]);
+                                },
                                 child: Text(
-                                  "SELANJUTNYA",
+                                  "BOOKING",
                                   style: GoogleFonts.poppins(
                                       fontSize: 16,
                                       color: Colors.white,
@@ -334,7 +341,10 @@ class RoomDetailsPageA extends StatelessWidget {
                                     textStyle: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold)),
-                              )
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
                             ],
                           ),
                         ),
@@ -365,7 +375,6 @@ class RoomDetailsPageA extends StatelessWidget {
   }
 
   Widget _checkIn(BuildContext context) {
-    final bookingController = Get.put(BookingController());
     return GestureDetector(
       onTap: () {
         bookingController.selectDate(context);
@@ -378,6 +387,7 @@ class RoomDetailsPageA extends StatelessWidget {
         ),
         padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
         decoration: BoxDecoration(
+          border: Border.all(color: AppColors.lightGrey),
           color: AppColors.backgroundColor,
           borderRadius: BorderRadius.circular(10),
         ),
@@ -403,15 +413,17 @@ class RoomDetailsPageA extends StatelessWidget {
   }
 
   Widget _checkOut(BuildContext context) {
-    final bookingController = Get.put(BookingController());
     return GestureDetector(
       onTap: () {
-        bookingController.selectDate(context);
+        bookingController.selectDate2(context);
       },
       child: Container(
         alignment: Alignment.centerLeft,
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+        margin: EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 10,
+        ),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.lightGrey),
           color: AppColors.backgroundColor,

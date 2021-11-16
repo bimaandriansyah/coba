@@ -70,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _header() {
-    
     final FirebaseController firebaseC = Get.find();
     final User? user = firebaseC.auth.currentUser;
     final String? username = user!.displayName;

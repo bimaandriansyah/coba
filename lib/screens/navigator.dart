@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
                 child: IndexedStack(
                   index: controller.tabIndex,
                   // ignore: prefer_const_literals_to_create_immutables
-                  children: [HomeScreen(), BookingPage(), ProfilePage()],
+                  children: [HomeScreen(), ReservationScreen(), ProfilePage()],
                 ),
               ),
               bottomNavigationBar: BottomNavigationBar(
