@@ -86,7 +86,6 @@ class BookingController extends GetxController {
           bukti: doc["bukti"],
         ));
       });
-      print(bookings);
     });
   }
 
