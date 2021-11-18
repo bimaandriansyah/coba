@@ -3,6 +3,7 @@
 import 'package:coba/constant/color_constant.dart';
 import 'package:coba/controller/booking_controller.dart';
 import 'package:coba/controller/firebase_controller.dart';
+import 'package:coba/controller/navigator_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:coba/screens/transfer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,10 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BookingPage extends StatelessWidget {
-  final BookingController bookingController = Get.find();
-  NumberFormat output =
-      NumberFormat.currency(locale: "in", symbol: "", decimalDigits: 0);
-
+  final NavigatorController navC = Get.find();
   var data = Get.arguments;
 
   @override
@@ -25,10 +23,9 @@ class BookingPage extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: AppColors.backgroundColor,
         title: Text(
-          'Booking',
+          'Detail Booking',
           style: GoogleFonts.poppins(
             color: Colors.black,
-            fontWeight: FontWeight.w700,
           ),
         ),
         leading: Builder(
@@ -59,13 +56,13 @@ class BookingPage extends StatelessWidget {
               children: [
                 _menuContent(),
                 _detailBooking(),
-                _buktiPembayaran(),
+                _buktiPembayaran(data[2]),
                 // z
               ],
             ),
           ),
         ),
-        _bookingMenu()
+        data[3] != "belum bayar" ? SizedBox() : _bookingMenu()
       ],
     );
   }
@@ -88,6 +85,32 @@ class BookingPage extends StatelessWidget {
             ),
           ),
           Text(username.toString(),
+              style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400)),
+          Text(
+            'Check In',
+            style: GoogleFonts.poppins(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          Text(data[5],
+              style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400)),
+          Text(
+            'Check Out',
+            style: GoogleFonts.poppins(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          Text(data[6],
               style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontSize: 16,
@@ -144,7 +167,9 @@ class BookingPage extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          "${output.format(int.parse(data[1]))}",
+                          NumberFormat.currency(
+                                  locale: 'id', decimalDigits: 0, symbol: "")
+                              .format(int.parse(data[1])),
                           style: GoogleFonts.poppins(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
@@ -164,7 +189,11 @@ class BookingPage extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          "IDR ${output.format(data[0] * int.parse(data[1]))}",
+                          NumberFormat.currency(
+                                  locale: 'id',
+                                  decimalDigits: 0,
+                                  symbol: "IDR ")
+                              .format(int.parse(data[0]) * int.parse(data[1])),
                           style: GoogleFonts.poppins(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
@@ -180,7 +209,7 @@ class BookingPage extends StatelessWidget {
     );
   }
 
-  Widget _buktiPembayaran() {
+  Widget _buktiPembayaran(String id) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
       child: Column(
@@ -195,33 +224,142 @@ class BookingPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              alignment: Alignment.center,
-              color: AppColors.lightGrey,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Feather.file),
-                    SizedBox(
-                      width: 5,
+          data[3] != "belum bayar"
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                      height: 250,
+                      width: Get.width,
+                      child: Image.network(
+                        data[4],
+                        fit: BoxFit.cover,
+                      )),
+                )
+              : GestureDetector(
+                  onTap: () {
+                    navC.onChooseAction(id);
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      alignment: Alignment.center,
+                      color: AppColors.lightGrey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Feather.file),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Upload Bukti Pembayaran",
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Text(
-                      "Upload Bukti Pembayaran",
-                      style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          )
+          data[3] == "batal"
+              ? SizedBox()
+              : GestureDetector(
+                  onTap: () {
+                    Get.defaultDialog(
+                        title: "",
+                        backgroundColor: Colors.white,
+                        content: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Yakin ingin batalkan pesanan?",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.all(10),
+                                            elevation: 0,
+                                            primary: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            )),
+                                        child: Text("Cancel",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 15,
+                                              color: AppColors.primaryColor,
+                                              fontWeight: FontWeight.bold,
+                                            ))),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Get.back();
+                                          navC.batalkanPesan(data[2]);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.all(10),
+                                            elevation: 0,
+                                            primary: AppColors.primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            )),
+                                        child: Text("Batalkan",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ))),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ));
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      margin: EdgeInsets.only(top: 20),
+                      alignment: Alignment.center,
+                      color: AppColors.lightGrey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(
+                          "Batalkan Pesanan",
+                          style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
         ],
       ),
     );
@@ -243,7 +381,9 @@ class BookingPage extends StatelessWidget {
                     fontWeight: FontWeight.w700),
               ),
               Text(
-                "IDR ${output.format(data[0] * int.parse(data[1]))}",
+                NumberFormat.currency(
+                        locale: 'id', decimalDigits: 0, symbol: "IDR ")
+                    .format(int.parse(data[0]) * int.parse(data[1])),
                 style: GoogleFonts.poppins(
                     color: AppColors.primaryColor,
                     fontSize: 16,
@@ -294,33 +434,44 @@ class BookingPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              alignment: Alignment.center,
-              color: AppColors.lightGrey,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Feather.file),
-                    SizedBox(
-                      width: 5,
+          data[3] == "sudah"
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                      height: 400,
+                      width: Get.width,
+                      child: Image.network(
+                        data[4],
+                        fit: BoxFit.cover,
+                      )),
+                )
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: AppColors.lightGrey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Feather.file),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Upload Bukti Pembayaran",
+                            style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      "Upload Bukti Pembayaran",
-                      style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
+                  ),
+                )
         ],
       ),
     );

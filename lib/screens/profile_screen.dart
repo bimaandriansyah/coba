@@ -114,8 +114,76 @@ class ProfilePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    firebaseC.logout();
-                    navC.tabIndex = 0;
+                    Get.defaultDialog(
+                        title: "",
+                        backgroundColor: Colors.white,
+                        content: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Yakin ingin logout dari akun ini?",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.all(10),
+                                            elevation: 0,
+                                            primary: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            )),
+                                        child: Text("Cancel",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 15,
+                                              color: AppColors.primaryColor,
+                                              fontWeight: FontWeight.bold,
+                                            ))),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          firebaseC.logout();
+                                          navC.tabIndex = 0;
+                                          Get.back();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.all(10),
+                                            elevation: 0,
+                                            primary: AppColors.primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            )),
+                                        child: Text("Logout",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ))),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ));
                   },
                   child: Text(
                     "LOGOUT",

@@ -94,14 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           Spacer(),
-          GestureDetector(
-            onTap: () {
-              firebaseC.logout();
-            },
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(photoUrl.toString()),
-              radius: 25,
-            ),
+          CircleAvatar(
+            backgroundImage: NetworkImage(photoUrl.toString()),
+            radius: 25,
           )
         ],
       ),

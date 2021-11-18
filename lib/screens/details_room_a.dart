@@ -2,6 +2,7 @@
 
 import 'package:coba/constant/color_constant.dart';
 import 'package:coba/controller/booking_controller.dart';
+import 'package:coba/controller/navigator_controller.dart';
 import 'package:coba/screens/booking.dart';
 import 'package:coba/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class RoomDetailsPageA extends StatelessWidget {
   int nomor = Get.arguments;
 
   final bookingController = Get.put(BookingController());
+  final NavigatorController navC = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -317,11 +319,17 @@ class RoomDetailsPageA extends StatelessWidget {
                               ElevatedButton(
                                 onPressed: () {
                                   Get.back();
+                                  navC.getbooking();
                                   bookingController.addbooking(
                                       type[nomor], "belum bayar", harga[nomor]);
                                   Get.off(() => BookingPage(), arguments: [
-                                    bookingController.jumlah,
-                                    harga[nomor]
+                                    bookingController.jumlah.toString(),
+                                    harga[nomor],
+                                    bookingController.idBook,
+                                    "belum bayar",
+                                    "",
+                                    bookingController.selectedDate1.value,
+                                    bookingController.selectedDate2.value
                                   ]);
                                 },
                                 child: Text(

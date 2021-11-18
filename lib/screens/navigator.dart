@@ -5,6 +5,7 @@ import 'package:coba/controller/navigator_controller.dart';
 import 'package:coba/screens/booking.dart';
 import 'package:coba/screens/home_screen.dart';
 import 'package:coba/screens/profile_screen.dart';
+import 'package:coba/screens/reservation.dart';
 import 'package:coba/screens/reservation_screen.dart';
 import 'package:coba/screens/transaksi.dart';
 import 'package:coba/screens/transfer.dart';
@@ -35,7 +36,7 @@ class _MainPageState extends State<MainPage> {
                 child: IndexedStack(
                   index: controller.tabIndex,
                   // ignore: prefer_const_literals_to_create_immutables
-                  children: [HomeScreen(), ReservationScreen(), ProfilePage()],
+                  children: [HomeScreen(), ReservationPage(), ProfilePage()],
                 ),
               ),
               bottomNavigationBar: BottomNavigationBar(
