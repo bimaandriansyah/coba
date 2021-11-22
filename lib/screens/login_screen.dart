@@ -4,16 +4,9 @@ import 'dart:ui';
 
 import 'package:coba/constant/color_constant.dart';
 import 'package:coba/controller/firebase_controller.dart';
-import 'package:coba/screens/navigator.dart';
-import 'package:coba/screens/registration_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
