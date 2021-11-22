@@ -193,17 +193,24 @@ class BookingPage extends StatelessWidget {
                                   locale: 'id',
                                   decimalDigits: 0,
                                   symbol: "IDR ")
-                              .format(int.parse(data[0]) * int.parse(data[1])),
+                              .format(int.parse(data[0]) * int.parse(data[1]) +
+                                  int.parse(data[7])),
                           style: GoogleFonts.poppins(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                        "Note : 3 digit dibelakang Total adalah kode unik untuk pembayaran, pastikan input transfer sesuai Total.",
+                        style: GoogleFonts.poppins(fontSize: 11))
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

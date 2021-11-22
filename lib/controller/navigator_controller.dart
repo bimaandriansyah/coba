@@ -39,6 +39,7 @@ class NavigatorController extends GetxController {
             nama: doc["nama"],
             checkin: doc["checkin"],
             checkout: doc["checkout"],
+            kodeUnik: doc["kodeUnik"],
             hari: doc["hari"],
             status: doc["status"],
             type: doc["type"],

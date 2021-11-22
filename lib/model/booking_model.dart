@@ -9,6 +9,7 @@ class Booking {
   int? nominal;
   String? status;
   String? bukti;
+  String? kodeUnik;
 
   Booking(
       {this.id,
@@ -20,5 +21,6 @@ class Booking {
       this.type,
       this.status,
       this.bukti,
-      this.nominal});
+      this.nominal,
+      this.kodeUnik});
 }

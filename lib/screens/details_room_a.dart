@@ -329,7 +329,8 @@ class RoomDetailsPageA extends StatelessWidget {
                                     "belum bayar",
                                     "",
                                     bookingController.selectedDate1.value,
-                                    bookingController.selectedDate2.value
+                                    bookingController.selectedDate2.value,
+                                    bookingController.kodeUnik
                                   ]);
                                 },
                                 child: Text(

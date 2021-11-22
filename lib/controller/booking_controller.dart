@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coba/constant/color_constant.dart';
+import 'dart:math';
 import 'package:coba/controller/firebase_controller.dart';
 import 'package:coba/model/booking_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +19,8 @@ class BookingController extends GetxController {
   var selectedDate2 = "".obs;
   late int jumlah;
   List<Booking> bookings = [];
-  String? idBook;
+  String? idBook, kodeUnik;
+  Random random = Random();
   // "TESTNIH"
 
   selectDate(BuildContext context) async {
@@ -59,7 +58,7 @@ class BookingController extends GetxController {
 
   addbooking(String type, String status, String harga) {
     final User? user = firebaseC.auth.currentUser;
-    var nominal = int.parse(harga) * jumlah;
+    var nominal = int.parse(harga) * jumlah + int.parse(kodeUnik!);
     idBook = Uuid().v1();
 
     data.doc(user!.uid).collection("book").doc(idBook).set({
@@ -73,11 +72,13 @@ class BookingController extends GetxController {
       'nominal': nominal,
       'status': status,
       'bukti': "",
+      'kodeUnik': kodeUnik
     });
   }
 
   @override
   void onInit() {
+    kodeUnik = random.nextInt(1000).toString();
     selectedDate1.value = "Tanggal Check-In";
     selectedDate2.value = "Tanggal Check-Out";
     super.onInit();

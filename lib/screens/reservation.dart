@@ -114,7 +114,8 @@ class ReservationPage extends StatelessWidget {
           data.status,
           data.bukti,
           data.checkin,
-          data.checkout
+          data.checkout,
+          data.kodeUnik
         ]);
       },
       child: Card(
@@ -207,7 +208,8 @@ class ReservationPage extends StatelessWidget {
                               data.status,
                               data.bukti,
                               data.checkin,
-                              data.checkout
+                              data.checkout,
+                              data.kodeUnik
                             ]);
                           },
                           child: Text(
